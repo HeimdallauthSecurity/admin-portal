@@ -30,7 +30,7 @@ RUN mkdir -p /etc/ssl/private /etc/ssl/certs && \
     -subj "/C=US/ST=State/L=City/O=Organization/OU=Department/CN=localhost"
 
 # Copy the built Angular application from the builder stage
-COPY --from=builder /app/dist/admin-portal /usr/share/nginx/html
+COPY --from=builder /app/dist/admin-portal/browser /usr/share/nginx/html
 
 # Copy custom Nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
