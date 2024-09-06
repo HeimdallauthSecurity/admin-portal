@@ -20,23 +20,12 @@ RUN npm run build
 FROM nginx:alpine
 
 # Install OpenSSL to generate certificates
-RUN apk add --no-cache openssl
-
-# Generate self-signed TLS certificates
-RUN mkdir -p /etc/ssl/private /etc/ssl/certs && \
-    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-    -keyout /etc/ssl/private/server.key \
-    -out /etc/ssl/certs/server.crt \
-    -subj "/C=US/ST=State/L=City/O=Organization/OU=Department/CN=localhost"
 
 # Copy the built Angular application from the builder stage
 COPY --from=builder /app/dist/admin-portal/browser /usr/share/nginx/html
 
 # Copy custom Nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose ports 80 and 443
-EXPOSE 80 443
+EXPOSE 80
 
-# Start Nginx server
-CMD ["nginx", "-g", "daemon off;"]
